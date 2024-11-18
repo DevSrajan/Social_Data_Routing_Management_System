@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create New Post</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- FontAwesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <!-- Custom CSS -->
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(135deg, #6a11cb, #2575fc); /* Bold gradient for a dynamic look */
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+    }
+    .container {
+      background: white;
+      padding: 40px 35px;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 500px;
+      animation: fadeIn 1s ease-out forwards;
+      opacity: 0;
+    }
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    h1 {
+      font-size: 2.2rem;
+      color: #ff4b5c; /* Bright accent color */
+      text-align: center;
+      margin-bottom: 25px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    label {
+      font-size: 1rem;
+      color: #333;
+      font-weight: 500;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      background-color: #f9f9f9;
+    }
+    input:focus, textarea:focus {
+      border-color: #ff4b5c; /* Accent color */
+      box-shadow: 0 0 5px rgba(255, 75, 92, 0.5);
+      outline: none;
+    }
+    button {
+      width: 100%;
+      padding: 14px;
+      background-color: #ff4b5c; /* Primary accent color */
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    button:hover {
+      background-color: #ff1f3f; /* Darker shade for hover */
+      transform: translateY(-3px);
+    }
+    button:active {
+      transform: translateY(0);
+    }
+    .form-group {
+      margin-bottom: 25px;
+    }
+    .invalid-feedback {
+      color: #d9534f; /* Bootstrap danger color */
+      font-size: 0.85rem;
+    }
+    .valid-feedback {
+      color: #28a745; /* Green for valid input */
+    }
+    .tooltip-inner {
+      background-color: #ff4b5c; /* Tooltip color */
+      color: white;
+    }
+    .tooltip-arrow {
+      border-top-color: #ff4b5c; /* Tooltip arrow color */
+    }
+    /* Media Query for responsiveness */
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.8rem; /* Smaller font size on smaller screens */
+      }
+      .container {
+        padding: 30px 25px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Create New Post</h1>
+    <form action="/posts/new" method="POST" id="createPostForm" novalidate>
+      <div class="form-group">
+        <label for="title" data-toggle="tooltip" title="Enter a catchy, descriptive title for your post.">Title:</label>
+        <input 
+          type="text" 
+          id="title" 
+          name="title" 
+          required 
+          minlength="5" 
+          maxlength="100" 
+          placeholder="Enter post title"
+          data-toggle="tooltip" 
+          title="Title should be between 5 to 100 characters">
+        <div class="invalid-feedback">Title is required and should be between 5 and 100 characters.</div>
+      </div>
+      <div class="form-group">
+        <label for="body" data-toggle="tooltip" title="The body should contain detailed content.">Body:</label>
+        <textarea 
+          id="body" 
+          name="body" 
+          rows="5" 
+          required 
+          minlength="20" 
+          placeholder="Enter post content"
+          data-toggle="tooltip"
+          title="Body should be at least 20 characters."></textarea>
+        <div class="invalid-feedback">Body is required and should be at least 20 characters long.</div>
+      </div>
+      <button type="submit" class="btn btn-primary">
+        <i class="fas fa-plus-circle"></i> Create
+      </button>
+    </form>
+  </div>
+  <!-- Bootstrap JS (optional for responsiveness) -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- FontAwesome JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+  <!-- Form Validation & Tooltip Activation -->
+  <script>
+    // Tooltip Activation
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+
+    document.getElementById('createPostForm').addEventListener('submit', function (event) {
+      var form = this;
+      if (!form.checkValidity()) {
+        event.preventDefault(); // Prevent submission
+        event.stopPropagation();
+      }
+      form.classList.add('was-validated'); // Show validation feedback
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Posts</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <!-- Custom CSS -->
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #8E2DE2 0%, #4A00E0 100%);
+      margin: 0;
+      padding: 50px 0;
+    }
+    h1 {
+      text-align: center;
+      color: #FFFFFF;
+      font-size: 2.5rem;
+      margin-bottom: 40px;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .card {
+      border-radius: 15px;
+      border: none;
+      overflow: hidden;
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      background: #fff;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    }
+    .card-body {
+      padding: 20px;
+    }
+    .card-title {
+      font-size: 1.5rem;
+      color: #333;
+      margin-bottom: 15px;
+    }
+    .card-text {
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 20px;
+    }
+    .btn {
+      font-size: 1rem;
+      padding: 10px 15px;
+      border-radius: 8px;
+      border: none;
+      transition: all 0.3s ease;
+    }
+    .btn-edit {
+      background: linear-gradient(135deg, #00C6FF 0%, #0072FF 100%);
+      color: #fff;
+    }
+    .btn-edit:hover {
+      background: linear-gradient(135deg, #0072FF 0%, #0056B3 100%);
+    }
+    .btn-delete {
+      background: linear-gradient(135deg, #FF416C 0%, #FF4B2B 100%);
+      color: #fff;
+    }
+    .btn-delete:hover {
+      background: linear-gradient(135deg, #FF4B2B 0%, #FF0000 100%);
+    }
+    .create-post-btn {
+      display: inline-block;
+      margin-bottom: 30px;
+      padding: 12px 25px;
+      background: linear-gradient(135deg, #32CD32 0%, #228B22 100%);
+      color: #fff;
+      border-radius: 8px;
+      font-size: 1.2rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+    .create-post-btn:hover {
+      background: linear-gradient(135deg, #228B22 0%, #006400 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    }
+    .pagination {
+      display: flex;
+      justify-content: center;
+      margin-top: 30px;
+    }
+    .pagination a {
+      margin: 0 5px;
+      text-decoration: none;
+      padding: 10px 15px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 5px;
+      color: #fff;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    .pagination a:hover {
+      background-color: rgba(255, 255, 255, 0.4);
+      transform: translateY(-2px);
+    }
+    .pagination .active {
+      background: linear-gradient(135deg, #8E2DE2 0%, #4A00E0 100%);
+      color: #fff;
+    }
+    @media (max-width: 768px) {
+      .card {
+        margin-bottom: 20px;
+      }
+      h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>All Posts</h1>
+    <a href="/posts/new" class="create-post-btn">+ Create New Post</a>
+    <div class="row">
+      <% posts.forEach((post) => { %>
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"><%= post.title %></h5>
+              <p class="card-text"><%= post.body %></p>
+              <div class="d-flex justify-content-between">
+                <a href="/posts/edit/<%= post._id %>" class="btn btn-edit">Edit</a>
+                <form action="/posts/delete/<%= post._id %>" method="POST" style="display:inline;">
+                  <button type="submit" class="btn btn-delete">Delete</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+      <% if (currentPage > 1) { %>
+        <a href="/posts?page=<%= currentPage - 1 %>">Previous</a>
+      <% } %>
+      <% for (let i = 1; i <= totalPages; i++) { %>
+        <a href="/posts?page=<%= i %>" class="<%= currentPage === i ? 'active' : '' %>">
+          <%= i %>
+        </a>
+      <% } %>
+      <% if (currentPage < totalPages) { %>
+        <a href="/posts?page=<%= currentPage + 1 %>">Next</a>
+      <% } %>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
